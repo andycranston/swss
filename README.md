@@ -1,6 +1,6 @@
 # swss - Selenium based Web Site Scanner
 
-The swss.py Python script uses the Selenium package to visit one or more websites.
+The `swss.py` Python script uses the Selenium package to visit one or more websites.
 
 The websites can be named by either IPv4 IP address or URL.  A range of IP addresses can also be specified
 in a short hand notation.
@@ -15,7 +15,7 @@ the devices has been successfully deployed.  A manual approach is the visit each
 address in a browser and once the page loads take a screenshot and save the screen shot in a file name
 that indicates which device it was.
 
-Using the swss.py Python script automates this process for you saving the screenshots with unique file names, creating
+Using the `swss.py` Python script automates this process for you saving the screenshots with unique file names, creating
 a progress log and putting summary information in a CSV file that can be loaded into a spreadsheet for easy viewing.
 
 ## Prerequisites
@@ -33,7 +33,7 @@ Tested on Windows 10 desktop.  Other versions of Windows may work if they suppor
 
 Open a command prompt in Windows.
 
-Change to the directory that contains the swss.py Python script.
+Change to the directory that contains the `swss.py` Python script.
 
 Type:
 
@@ -95,7 +95,7 @@ load the screenshot should have an error message explaining the reason why.
 
 ## Using different ports
 
-By default the swss.py Python script assumes the web page is running on port 443 (https).  To specify a different port
+By default the `swss.py` Python script assumes the web page is running on port 443 (https).  To specify a different port
 use syntax similar to:
 
 ```
