@@ -129,7 +129,7 @@ contains:
 192.168.1.1
 192.168.1.2
 www.ibm.com
-192.168.1.50-99
+192.168.1.6
 ```
 
 then this is the syntax to use:
