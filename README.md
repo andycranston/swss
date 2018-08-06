@@ -11,7 +11,7 @@ script progress and a simple CSV file is also produced which summarises the resu
 ## Why is this useful?
 
 Say you have deployed a number of network devices on a subnet.  You may want to document that each of
-the devices has been successfully deployed.  A manual approach is the visit each device by entering the IP
+the devices has been successfully deployed.  A manual approach is to visit each device by entering the IP
 address in a browser and once the page loads take a screenshot and save the screen shot in a file name
 that indicates which device it was.
 
