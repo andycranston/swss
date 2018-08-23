@@ -116,6 +116,16 @@ def csv(s):
 
 #########################################################################
 
+def deletefile(filename):
+    try:
+        os.remove(filename)
+    except FileNotFoundError:
+        pass
+        
+    return
+    
+#########################################################################
+
 def logmsg(logfile, msg):
     global progname
     
@@ -144,6 +154,7 @@ def swss(ipaddresses, port, logfile, csvfile):
     logmsg(logfile, "FireFox started")
 
     for ip in ipaddresses:
+        # construct URL and port number
         if (port == "http") or (port == "80"):
             url = "http://{}/".format(ip)
             portnum = "80"
@@ -154,31 +165,40 @@ def swss(ipaddresses, port, logfile, csvfile):
             url = "http://{}:{}/".format(ip, port)
             portnum = port
 
-        logmsg(logfile, "getting  URL \"{}\"".format(url))
-
+        # get the url
+        logmsg(logfile, "getting  URL \"{}\" on port number {}".format(url, portnum))
         try:
             browser.get(url)
             logmsg(logfile, "waiting for page load to settle")
             time.sleep(2.0)
-            status = "ok"
+            geterrortext = ""
         except WebDriverException as exception:
-            errortext = str(exception).strip()
-            logmsg(logfile, "error getting URL \"{}\" - \"{}\"".format(url, errortext))
-            status = "get failed: {}".format(errortext)
+            geterrortext = str(exception).strip()
+            logmsg(logfile, "error getting URL \"{}\" - \"{}\"".format(url, geterrortext))
 
-        if status != "ok":
-            title = "n/a"
-        else:
+        # get the page title
+        try:
             title = browser.title
+            logmsg(logfile, "page title is \"{}\"".format(title))
+        except UnexpectedAlertPresentException:
+            title = "<error getting title>"
+            logmsg(logfile, title)
 
+        # take a screenshot
         screenshotfilename = 'swss-{}-{}.png'.format(leadzeroip(ip), portnum)
         logmsg(logfile, "taking screenshot to file \"{}\"".format(screenshotfilename))
-        browser.save_screenshot(screenshotfilename)
-        
-        print('{},{},{},{}'.format(csv(leadzeroip(ip)), csv(url), csv(status), csv(title)), file=csvfile)
+        deletefile(screenshotfilename)
+        try:
+            browser.save_screenshot(screenshotfilename)
+        except IOError:
+            screenshotfilename = "Error taking screenshot to file \"{}\"".format(screenshotfilename)
+            logmsg(logfile, screenshotfilename)
+            deletefile(screenshotfilename)
+                                
+        print('{},{},{},{},{},{}'.format(csv(leadzeroip(ip)), csv(portnum), csv(url), csv(title), csv(screenshotfilename), csv(geterrortext)), file=csvfile)
         csvfile.flush()
 
-    logmsg(logfile, "quiting FireFox browser")
+    logmsg(logfile, "stopping FireFox browser")
     browser.quit()
     
     logmsg(logfile, "FireFox stopped")
